@@ -1,0 +1,45 @@
+{
+  "name": "starter-pack",
+  "version": "0.0.1",
+  "description": "A TypeScript/React/Express starter pack using isomorphism",
+  "scripts": {
+    "start": "nodemon index.js",
+    "install": "tsd reinstall"
+  },
+  "dependencies": {
+    "ejs": "*",
+    "koa": "*",
+    "koa-mount": "*",
+    "koa-proxy": "*",
+    "koa-route": "*",
+    "koa-static": "*",
+    "normalize.css": "*",
+    "react": "*",
+    "react-dom": "*",
+    "react-tap-event-plugin": "*",
+    "whatwg-fetch": "*"
+  },
+  "devDependencies": {
+    "babel-core": "*",
+    "babel-loader": "*",
+    "babel-plugin-transform-runtime": "*",
+    "babel-preset-es2015": "*",
+    "del": "*",
+    "gulp": "*",
+    "gulp-babel": "*",
+    "gulp-concat": "*",
+    "gulp-load-plugins": "*",
+    "gulp-minify-css": "*",
+    "gulp-sass": "*",
+    "gulp-typescript": "*",
+    "gulp-uglify": "*",
+    "gulp-util": "*",
+    "nodemon": "*",
+    "ts-loader": "*",
+    "tsd": "*",
+    "typescript": "github:microsoft/TypeScript",
+    "webpack": "*",
+    "webpack-dev-server": "*",
+    "webpack-stream": "*"
+  }
+}

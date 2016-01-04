@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "jsx": "react",
+    "noLib": true,
+    "noResolve": true,
+    "experimentalDecorators": true
+  },
+  "filesGlob": [
+    "./typings/**/*.d.ts",
+    "./definitions/**/*.d.ts",
+    "./node_modules/typescript/lib/lib.es6.d.ts",
+    "./common/**/*.+(ts|tsx)"
+  ],
+  "atom": {
+    "rewriteTsconfig": true
+  },
+  "compileOnSave": false,
+  "files": [
+    "./typings/react/react-dom.d.ts",
+    "./typings/react/react.d.ts",
+    "./typings/whatwg-fetch/whatwg-fetch.d.ts",
+    "./definitions/encoding.d.ts",
+    "./definitions/react-tap-event-plugin.d.ts",
+    "./node_modules/typescript/lib/lib.es6.d.ts",
+    "./common/containers/Home.tsx",
+    "./common/containers/index.ts",
+    "./common/index.ts",
+    "./common/services/util.ts"
+  ]
+}
