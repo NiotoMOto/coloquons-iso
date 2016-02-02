@@ -17,6 +17,7 @@ module.exports = (layout, views, name, options) => new Promise((resolve, reject)
     };
 
     ejs.renderFile(layout, {
+      title: `Coloquons ${options.title}`,
       data: util.objectToBase64(data),
       content: ReactDOMServer.renderToString(
         React.createElement(component, data.props)

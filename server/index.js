@@ -6,9 +6,17 @@ const koa = require('koa');
 const mount = require('koa-mount');
 const serve = require('koa-static');
 
-const middlewares = require('./middlewares');
-const routes = require('./routes');
+const bodyParser = require('koa-bodyparser');
+const convert = require('koa-convert');
+const session = require('koa-generic-session');
+const passport = require('koa-passport')
 
+const middlewares = require('./middlewares');
+
+const data = require('./data');
+
+const routes = require('./routes');
+const publicRoutes = require('./routes/publics')
 const app = new koa();
 
 if (process.env.NODE_ENV !== 'production') {
@@ -17,6 +25,8 @@ if (process.env.NODE_ENV !== 'production') {
     match: /^\/public\/js\//,
   }));
 }
+
+app.use(bodyParser());
 
 app.use(mount('/vendors', serve(path.resolve(__dirname, '..', 'node_modules'))));
 
@@ -28,6 +38,26 @@ app.use(middlewares.render({
   layout: path.resolve(__dirname, 'views', 'index.ejs'),
   views: path.resolve(__dirname, 'common', 'containers'),
 }));
+
+
+app.keys = ['some secret hurr'];
+app.use(session(app));
+
+app.use(passport.initialize())
+app.use(passport.session())
+require('./services/auth');
+
+app.use(mount('/', publicRoutes));
+
+app.use(function*(next) {
+  console.log(this.session)
+   if (this.isAuthenticated()) {
+     console.log(next);
+     yield next;
+   } else {
+     this.redirect('/login');
+   }
+ });
 
 app.use(mount('/', routes));
 

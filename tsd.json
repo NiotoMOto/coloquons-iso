@@ -5,13 +5,16 @@
   "path": "typings",
   "installed": {
     "react/react.d.ts": {
-      "commit": "0d66537e353802f996a3f67ca1b711f63835f9e7"
+      "commit": "5d0f2126c8dac8fce0ff020218aea06607213b0d"
     },
     "react/react-dom.d.ts": {
       "commit": "0d66537e353802f996a3f67ca1b711f63835f9e7"
     },
-    "whatwg-fetch/whatwg-fetch.d.ts": {
-      "commit": "0d66537e353802f996a3f67ca1b711f63835f9e7"
+    "superagent/superagent.d.ts": {
+      "commit": "c2939250ec2d1ecdc82fce62afb9354dd14909ea"
+    },
+    "node/node.d.ts": {
+      "commit": "c2939250ec2d1ecdc82fce62afb9354dd14909ea"
     }
   }
 }

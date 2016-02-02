@@ -18,14 +18,22 @@
   },
   "compileOnSave": false,
   "files": [
+    "./typings/node/node.d.ts",
     "./typings/react/react-dom.d.ts",
     "./typings/react/react.d.ts",
-    "./typings/whatwg-fetch/whatwg-fetch.d.ts",
+    "./typings/superagent/superagent.d.ts",
     "./definitions/encoding.d.ts",
+    "./definitions/main.d.ts",
+    "./definitions/material-ui.d.ts",
     "./definitions/react-tap-event-plugin.d.ts",
     "./node_modules/typescript/lib/lib.es6.d.ts",
+    "./common/components/AppBarMenu.tsx",
+    "./common/components/Layout.tsx",
+    "./common/components/MenuLeftNav.tsx",
     "./common/containers/Home.tsx",
     "./common/containers/index.ts",
+    "./common/containers/Login.tsx",
+    "./common/containers/User.tsx",
     "./common/index.ts",
     "./common/services/util.ts"
   ]

@@ -33,7 +33,7 @@ export function base64ToJSON(str: string): any {
 export function autobind(target: any, regexpOrfilter: RegExp | Types.Filter<string>): void {
   const filter = regexpOrfilter instanceof RegExp ? key => (regexpOrfilter as RegExp).test(key) : regexpOrfilter;
 
-  Object.keys(Object.getPrototypeOf(target)).filter(filter as Types.Filter<string>).forEach(met => {
+  Object.getOwnPropertyNames(Object.getPrototypeOf(target)).filter(filter as Types.Filter<string>).forEach(met => {
     target[met] = target[met].bind(target);
   });
 }

@@ -25,7 +25,11 @@ const paths = {
   },
   mainCss: './public/css/main.css',
   public: './public',
-  scss: './scss/**/*.scss',
+  publicCss: './public/**/*.css',
+  scss: './scss/**/*.{scss, css}',
+  icons: './scss/icons/**/*.svg',
+  scssDir: './scss/icons/',
+  tmp: './tmp/'
 };
 
 gulp.task('clean', done => {
@@ -72,6 +76,21 @@ gulp.task('build-scss', ['clean'], () =>
     .pipe(plugins.concat('main.css'))
     .pipe(plugins.minifyCss())
     .pipe(gulp.dest('./public/css')));
+
+const config = {
+  mode: {
+    css: {     // Activate the «css» mode
+      render: {
+        css: true  // Activate CSS output (with default options)
+      }
+    }
+  }
+}
+gulp.task('icons-sprite', () =>
+  gulp.src(paths.icons)
+    .pipe(plugins.svgSprite(config))
+    .pipe(gulp.dest(paths.public)));
+
 
 gulp.task('webpack', ['clean'], () =>
   gulp.src(paths.common.entry)
