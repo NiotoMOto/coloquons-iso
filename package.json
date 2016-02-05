@@ -7,7 +7,6 @@
     "install": "tsd reinstall"
   },
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
     "ejs": "*",
     "fetch": "^1.0.0",
     "koa": "*",
@@ -22,7 +21,6 @@
     "koa-static": "*",
     "material-design-icons": "^2.1.3",
     "material-ui": "^0.14.3",
-    "mongoose": "^4.3.7",
     "node-fetch": "^1.3.3",
     "normalize.css": "*",
     "passport-facebook": "^2.1.0",

@@ -13,8 +13,6 @@ const passport = require('koa-passport')
 
 const middlewares = require('./middlewares');
 
-const data = require('./data');
-
 const routes = require('./routes');
 const publicRoutes = require('./routes/publics')
 const app = new koa();

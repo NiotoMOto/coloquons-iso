@@ -2,7 +2,6 @@
 
 const koa = require('koa');
 const route = require('koa-route');
-var User = require('mongoose').model('User');
 var passport = require('koa-passport')
 const main = koa();
 

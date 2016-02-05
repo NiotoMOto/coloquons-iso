@@ -1,5 +1,4 @@
 var passport = require('koa-passport')
-var User = require('mongoose').model('User');
 var fetch = require('node-fetch');
 
 passport.serializeUser(function(user, done) {
@@ -12,18 +11,22 @@ passport.deserializeUser(function(_id, done) {
 
 var LocalStrategy = require('passport-local').Strategy
 passport.use(new LocalStrategy(function(username, password, done) {
-  User.findOne({username: username}, (err, user) => {
-    if(err || !user){
-      done(null, false);
-    }else{
-      user.verifyPassword(password, valid => {
-        if(valid){
-          done(null, user);
-        }else{
-          done(null, false);
-        }
-      });
+  const body = {username, password};
+  fetch('http://localhost:4001/login', {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(res => {
+    if(res.ok) {
+      return res.json();
+    }else {
+      return false;
     }
+  }).then( res => {
+    done(null, res);
   });
 }))
 
