@@ -27,10 +27,10 @@ export default class AppBarrMenu extends Component<IProps, void> {
           title={this.props.title}
           iconElementRight={
             <IconMenu
-              iconButtonElement={
+              iconButtonElement= {
                 <IconButton>
                   <FontIcon
-                   className="material-icons svg-person"
+                   className="icon-person"
                   />
                 </IconButton>
               }

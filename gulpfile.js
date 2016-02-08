@@ -64,7 +64,7 @@ gulp.task('recompile', () =>
     }))
     .pipe(gulp.dest('./server')));
 
-gulp.task('scss', () =>
+gulp.task('scss', ['iconfont'], () =>
   gulp.src(paths.scss)
     .pipe(plugins.sass().on('error', plugins.util.log))
     .pipe(plugins.concat('main.css'))
@@ -86,11 +86,22 @@ const config = {
     }
   }
 }
-gulp.task('icons-sprite', () =>
-  gulp.src(paths.icons)
-    .pipe(plugins.svgSprite(config))
-    .pipe(gulp.dest(paths.public)));
 
+var fontName = 'icons';
+gulp.task('iconfont', function(){
+  gulp.src(paths.icons)
+    .pipe(plugins.iconfontCss({
+      fontName: fontName,
+      path: './scss/_icons.scss',
+      targetPath: '/css/icons.scss',
+      fontPath: '../fonts/icons/'
+    }))
+    .pipe(plugins.iconfont({
+      fontName: fontName,
+      normalize: true
+     }))
+    .pipe(gulp.dest('scss/fonts/icons/'));
+});
 
 gulp.task('webpack', ['clean'], () =>
   gulp.src(paths.common.entry)

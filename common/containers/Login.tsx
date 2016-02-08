@@ -74,6 +74,9 @@ export default class Login extends Component<IProps, void> {
             <div className="buttons-block">
               <RaisedButton type="submit" label="Login" primary={true} />
             </div>
+            <IconButton>
+              <FontIcon className="icon-google"/>
+            </IconButton>
           </form>
         </Paper>
       </div>
