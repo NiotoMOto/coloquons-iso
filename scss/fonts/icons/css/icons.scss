@@ -27,11 +27,14 @@
 @function icon-char($filename) {
 	$char: "";
 
-	@if $filename == google {
+	@if $filename == file {
 		$char: "\E001";
 	}
-	@if $filename == person {
+	@if $filename == google {
 		$char: "\E002";
+	}
+	@if $filename == person {
+		$char: "\E003";
 	}
 
 	@return $char;
@@ -48,6 +51,9 @@
 	}
 }
 
+.icon-file {
+	@include icon(file);
+}
 .icon-google {
 	@include icon(google);
 }

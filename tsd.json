@@ -15,6 +15,12 @@
     },
     "node/node.d.ts": {
       "commit": "c2939250ec2d1ecdc82fce62afb9354dd14909ea"
+    },
+    "lodash/lodash.d.ts": {
+      "commit": "1a5b2a729d35b1d41e2d15818db013a3644c6ba4"
+    },
+    "highcharts/highcharts.d.ts": {
+      "commit": "44c9273e1e92bc95368f599d1dcda9f560a68956"
     }
   }
 }

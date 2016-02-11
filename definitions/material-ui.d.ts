@@ -8,6 +8,7 @@
 declare module "material-ui" {
     export import AppBar = __MaterialUI.AppBar; // require('material-ui/lib/app-bar');
     export import AppCanvas = __MaterialUI.AppCanvas; // require('material-ui/lib/app-canvas');
+    export import AutoComplete = __MaterialUI.AutoComplete; // require('material-ui/lib/menu/auto-complete');
     export import Avatar = __MaterialUI.Avatar; // require('material-ui/lib/avatar');
     export import Badge = __MaterialUI.Badge; // require('material-ui/lib/badge');
     export import BeforeAfterWrapper = __MaterialUI.BeforeAfterWrapper; // require('material-ui/lib/before-after-wrapper');
@@ -128,6 +129,35 @@ declare namespace __MaterialUI {
     export class AppCanvas extends React.Component<AppCanvasProps, {}> {
     }
 
+    interface AutoCompleteProps extends React.Props<AutoComplete> {
+      anchorOrigin?: any;
+      animated?:	boolean;
+      dataSource?:	Array<any>;
+      disableFocusRipple?:	boolean;
+      errorStyle?:	React.CSSProperties;
+      errorText?:	string;
+      filter?: any;
+      floatingLabelText?:	string;
+      fullWidth?:	boolean;
+      hintText?:	string;
+      listStyle?:	React.CSSProperties;
+      menuCloseDelay?: number;
+      menuProps?:	any;
+      menuStyle?: React.CSSProperties;
+      onNewRequest?: any;
+      onUpdateInput?: any;
+      open?: boolean;
+      searchText?: string;
+      showAllItems?: boolean;
+      targetOrigin?:	any;
+      touchTapCloseDelay?: number;
+      triggerUpdateOnFocus?: boolean;
+      updateWhenFocused?: boolean;
+      autoComplete?: string;
+    }
+    export class AutoComplete extends React.Component<AutoCompleteProps, {}> {
+    }
+
     interface AvatarProps extends React.Props<Avatar> {
         icon?: React.ReactElement<any>;
         backgroundColor?: string;
@@ -197,7 +227,7 @@ declare namespace __MaterialUI {
             subtitleStyle?: React.CSSProperties;
             textStyle?: React.CSSProperties;
             style?: React.CSSProperties;
-            avatar: React.ReactElement<any> | string;
+            avatar?: React.ReactElement<any> | string;
         }
         export class CardHeader extends React.Component<CardHeaderProps, {}> {
         }
@@ -1604,6 +1634,11 @@ declare namespace __MaterialUI {
 declare module 'material-ui/lib/app-bar' {
     import AppBar = __MaterialUI.AppBar;
     export = AppBar;
+}
+
+declare module 'material-ui/lib/auto-complete' {
+    import AutoComplete = __MaterialUI.AutoComplete;
+    export = AutoComplete;
 }
 
 declare module 'material-ui/lib/hoc/selectable-enhance' {

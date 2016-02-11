@@ -1,7 +1,7 @@
 'use strict';
 
 import * as React from 'react';
-import {LeftNav, MenuItem, TouchTapEventHandler, ListItem} from 'material-ui';
+import {LeftNav, ListItem} from 'material-ui';
 
 const { Component } = React;
 
@@ -36,7 +36,7 @@ export default class AppbBarMenu extends Component<IProps, void> {
     return (
       <div>
         <LeftNav {...props}>
-         <ListItem href="/" key={1} primaryText="Home" />
+         <ListItem href="/" key={1} primaryText="Hangouts" />
          <ListItem href="/user" key={2} primaryText="Utilisateur" />
         </LeftNav>
       </div>

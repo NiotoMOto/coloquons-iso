@@ -1,7 +1,7 @@
 'use strict';
 
 import * as React from 'react';
-import {Card, Paper, TextField, Divider, RaisedButton} from 'material-ui';
+import {Card, Paper, TextField, Divider, RaisedButton, IconButton, FontIcon} from 'material-ui';
 import { autobind, filters } from '../services/util';
 const { Component } = React;
 import * as superagent from 'superagent';
@@ -21,14 +21,8 @@ export default class Login extends Component<IProps, void> {
     autobind(this, filters.listeners);
   }
 
-  onLogin(){
-    superagent.post('login')
-    .send({
-      username: this.refs['login'].getValue(), password: this.refs['password'].getValue()
-    })
-    .end((err, res)=>{
-      // console.log(res);
-    })
+  onGoogleLogin() {
+    window.location.href = '/auth/google';
   }
 
   getStyle(){
@@ -74,7 +68,7 @@ export default class Login extends Component<IProps, void> {
             <div className="buttons-block">
               <RaisedButton type="submit" label="Login" primary={true} />
             </div>
-            <IconButton>
+            <IconButton onTouchTap={this.onGoogleLogin} >
               <FontIcon className="icon-google"/>
             </IconButton>
           </form>

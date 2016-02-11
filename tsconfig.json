@@ -18,6 +18,8 @@
   },
   "compileOnSave": false,
   "files": [
+    "./typings/highcharts/highcharts.d.ts",
+    "./typings/lodash/lodash.d.ts",
     "./typings/node/node.d.ts",
     "./typings/react/react-dom.d.ts",
     "./typings/react/react.d.ts",
@@ -25,16 +27,20 @@
     "./definitions/encoding.d.ts",
     "./definitions/main.d.ts",
     "./definitions/material-ui.d.ts",
+    "./definitions/react-file-input.d.ts",
+    "./definitions/react-highcharts.d.ts",
     "./definitions/react-tap-event-plugin.d.ts",
     "./node_modules/typescript/lib/lib.es6.d.ts",
     "./common/components/AppBarMenu.tsx",
     "./common/components/Layout.tsx",
     "./common/components/MenuLeftNav.tsx",
+    "./common/components/SelectUser.tsx",
     "./common/containers/Home.tsx",
     "./common/containers/index.ts",
     "./common/containers/Login.tsx",
     "./common/containers/User.tsx",
     "./common/index.ts",
+    "./common/services/hangoutParser.ts",
     "./common/services/util.ts"
   ]
 }

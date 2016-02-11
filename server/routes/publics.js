@@ -36,4 +36,16 @@ main.use(route.post('/login', function*(next) {
     }).call(this, next)
 }));
 
+main.use(route.get('/auth/google', function*(next){
+   yield passport.authenticate('google', { scope : ['profile', 'email'] });
+}));
+
+main.use(route.get('/auth/google/callback', function*(next){
+  console.log('callback');
+  yield passport.authenticate('google', {
+    successRedirect : '/',
+    failureRedirect : '/login'
+  })
+}));
+
 module.exports = main;

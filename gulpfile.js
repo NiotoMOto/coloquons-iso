@@ -5,7 +5,6 @@ const gulp = require('gulp');
 const plugins = require('gulp-load-plugins')();
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-
 const webpackConfig = require('./webpack.config.js');
 
 plugins.webpack = require('webpack-stream');
@@ -64,13 +63,13 @@ gulp.task('recompile', () =>
     }))
     .pipe(gulp.dest('./server')));
 
-gulp.task('scss', ['iconfont'], () =>
+gulp.task('scss', ['copyIcons'], () =>
   gulp.src(paths.scss)
     .pipe(plugins.sass().on('error', plugins.util.log))
     .pipe(plugins.concat('main.css'))
     .pipe(gulp.dest('./public/css')));
 
-gulp.task('build-scss', ['clean'], () =>
+gulp.task('build-scss', ['clean', 'copyIcons'], () =>
   gulp.src(paths.scss)
     .pipe(plugins.sass().on('error', plugins.util.log))
     .pipe(plugins.concat('main.css'))
@@ -100,8 +99,12 @@ gulp.task('iconfont', function(){
       fontName: fontName,
       normalize: true
      }))
-    .pipe(gulp.dest('scss/fonts/icons/'));
+    .pipe(gulp.dest('./scss/fonts/icons/'));
 });
+
+gulp.task('copyIcons', ['iconfont'], () => {
+  gulp.src('./scss/fonts/icons/*.{eot,ttf,woff}', {base: './scss/fonts/icons/'}).pipe(gulp.dest('./public/fonts/icons/'));
+})
 
 gulp.task('webpack', ['clean'], () =>
   gulp.src(paths.common.entry)

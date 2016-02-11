@@ -17,6 +17,11 @@ const routes = require('./routes');
 const publicRoutes = require('./routes/publics')
 const app = new koa();
 
+const bunyan = require('bunyan');
+const bformat = require('bunyan-format');
+const formatOut = bformat({ outputMode: 'short' })
+const log = bunyan.createLogger({name: "coloquons-iso", stream: formatOut});
+
 if (process.env.NODE_ENV !== 'production') {
   app.use(require('koa-proxy')({
     host: 'http://localhost:8080',
@@ -47,15 +52,27 @@ require('./services/auth');
 
 app.use(mount('/', publicRoutes));
 
-app.use(function*(next) {
-  console.log(this.session)
-   if (this.isAuthenticated()) {
-     console.log(next);
-     yield next;
-   } else {
-     this.redirect('/login');
-   }
- });
+
+//logger
+app.use(function *(next){
+  var start = new Date;
+  yield next;
+  var ms = new Date - start;
+  log.info('%s %s - %sms', this.method, this.url, ms);
+});
+app.on('error', function(err){
+  log.error('server error', err);
+});
+
+if (process.env.NODE_ENV === 'productionss') {
+  app.use(function*(next) {
+    if (this.isAuthenticated()) {
+      yield next;
+    } else {
+      this.redirect('/login');
+    }
+  });
+}
 
 app.use(mount('/', routes));
 
