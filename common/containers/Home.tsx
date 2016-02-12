@@ -3,11 +3,11 @@
 import * as React from 'react';
 import * as Highcharts  from 'highcharts';
 global.Highcharts = Highcharts;
-import {Paper, RaisedButton, CircularProgress, FontIcon,Card, CardHeader, CardText, CardActions, Table, TableHeader,TableRow, TableHeaderColumn, TableBody, TableRowColumn} from 'material-ui';
+import {Paper, RaisedButton, CircularProgress, FontIcon,Card, CardHeader, CardText, CardActions, LinearProgress} from 'material-ui';
 import { autobind, filters } from '../services/util';
 import processData from '../services/hangoutParser';
 import Layout from '../components/Layout';
-import SelectUser from '../components/SelectUser';
+import WordsUsed from '../components/WordsUsed';
 import * as ReactHighcharts from 'react-highcharts';
 const { Component } = React;
 import * as _ from 'lodash';
@@ -17,14 +17,16 @@ interface IProps {
 }
 
 interface IStates {
-  chartDatas: any;
-  hasFile: boolean;
+  chartDatas?: any;
+  hasFile?: boolean;
+  completed?: number;
 }
 
 export default class Home extends Component<IProps, IStates> {
   state = {
     chartDatas: [],
-    hasFile: false
+    hasFile: false,
+    completed: 0
   }
   constructor(props){
     super(props);
@@ -39,6 +41,7 @@ export default class Home extends Component<IProps, IStates> {
     const file = e.target.files[0];
     let Hangouts= {};
     if (file) {
+      this.setState({completed: 0});
       var reader = new FileReader();
       reader.readAsText(file, "UTF-8");
       reader.onload = evt => {
@@ -50,11 +53,16 @@ export default class Home extends Component<IProps, IStates> {
           }
         );
       }
+      reader.onprogress = data => {
+      if (data.lengthComputable) {
+          var progress = parseInt( ((data.loaded / data.total) * 100), 10 );
+          this.setState({completed: progress});
+      }
+  }
       reader.onerror = function (evt) {
         alert("Error reading file");
       }
     }
-
   }
 
   render(): JSX.Element {
@@ -164,6 +172,7 @@ export default class Home extends Component<IProps, IStates> {
                icon={<FontIcon className="icon-file"/>}>
                <input type="file" style={styles.exampleImageInput} onChange={this.onFileChange}/>
              </RaisedButton>
+             <LinearProgress mode="determinate" value={this.state.completed} />
            </CardActions>
         </Card>
         <Paper>
@@ -175,39 +184,7 @@ export default class Home extends Component<IProps, IStates> {
         <Paper>
           {chartMedias}
         </Paper>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHeaderColumn>ID</TableHeaderColumn>
-              <TableHeaderColumn>Nombre de mots différents</TableHeaderColumn>
-              <TableHeaderColumn>1</TableHeaderColumn>
-              <TableHeaderColumn>2</TableHeaderColumn>
-              <TableHeaderColumn>3</TableHeaderColumn>
-              <TableHeaderColumn>4</TableHeaderColumn>
-              <TableHeaderColumn>5</TableHeaderColumn>
-              <TableHeaderColumn>6</TableHeaderColumn>
-              <TableHeaderColumn>7</TableHeaderColumn>
-              <TableHeaderColumn>8</TableHeaderColumn>
-              <TableHeaderColumn>9</TableHeaderColumn>
-              <TableHeaderColumn>10</TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-          {
-            _.map(this.state.chartDatas, user => {
-              return  <TableRow key={user.name}>
-                <TableRowColumn>{user.name}</TableRowColumn>
-                <TableRowColumn>{user.wordCount}</TableRowColumn>
-                {
-                  _.map(user.data[3], w => {
-                    return <TableRowColumn key={w.word}><strong>{w.word}</strong> {w.count}</TableRowColumn>
-                  })
-                }
-              </TableRow>
-            })
-          }
-          </TableBody>
-        </Table>
+        <WordsUsed chartDatas={this.state.chartDatas} />
       </Layout>
     );
   }
