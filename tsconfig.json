@@ -22,7 +22,6 @@
     "./typings/highcharts/highcharts.d.ts",
     "./typings/lodash/lodash.d.ts",
     "./typings/node/node.d.ts",
-    "./typings/parallel/parallel.d.ts",
     "./typings/react/react-dom.d.ts",
     "./typings/react/react.d.ts",
     "./typings/superagent/superagent.d.ts",

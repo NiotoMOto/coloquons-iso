@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {AutoComplete, ListItem, Table, TableHeader,TableRow, TableHeaderColumn, TableBody, TableRowColumn, Dialog} from 'material-ui';
+import {AutoComplete, ListItem, Table, TableHeader,TableRow, TableHeaderColumn, TableBody, TableRowColumn, Dialog, RaisedButton} from 'material-ui';
 import * as _ from 'lodash';
 
 const { Component } = React;
@@ -23,13 +23,21 @@ export default class WordUsed extends Component<IProps, IStats> {
     super(props);
   }
 
+  onhandleOpen(user) {
+    const open = this.state.open;
+    open[user.name] = true;
+    this.setState({open});
+  }
+
   componentWillReceiveProps(nextProps){
-    console.log(nextProps);
-    this.setState({
-      open: _.zipObject(_.map(nextProps.chartDatas, 'name'), _.map(nextProps.chartDatas, () => { return false; }))
-    })
-    console.log(_.map(nextProps.chartDatas, 'name'));
-    console.log(_.zipObject(_.map(nextProps.chartDatas, 'name'), _.map(nextProps.chartDatas, () => { return false; })));
+    if(nextProps.chartDatas.length){
+      this.setState({
+        open: _.zipObject(_.map(nextProps.chartDatas, 'name'), _.map(nextProps.chartDatas, () => { return false; }))
+      });
+      console.log(this.state);
+      console.log(_.map(nextProps.chartDatas, 'name'));
+      console.log(_.zipObject(_.map(nextProps.chartDatas, 'name'), _.map(nextProps.chartDatas, () => { return false; })));
+    }
   }
 
   open(){
@@ -37,6 +45,7 @@ export default class WordUsed extends Component<IProps, IStats> {
   }
 
   render(): JSX.Element {
+    console.log(this.state);
     return (
       <Table>
         <TableHeader>
@@ -50,23 +59,26 @@ export default class WordUsed extends Component<IProps, IStats> {
         <TableBody>
         {
           _.map(this.props.chartDatas, user => {
+            this.onhandleOpen = this.onhandleOpen.bind(this, user);
             return  <TableRow key={user.name}>
-              <TableRowColumn>{user.name}</TableRowColumn>
-              <TableRowColumn>{user.wordCount}</TableRowColumn>
-              <TableRowColumn>
-                <Dialog
-                  title="Dialog With Date Picker"
-                  modal={false}
-                  open={this.state.open[user]}
-                >
-                </Dialog>
-              </TableRowColumn>
-              {
-                _.map(user.data[3], w => {
-                  return <TableRowColumn key={w.word}><strong>{w.word}</strong> {w.count}</TableRowColumn>
-                })
-              }
-            </TableRow>
+                      <TableRowColumn>{user.name}</TableRowColumn>
+                      <TableRowColumn>{user.wordCount}</TableRowColumn>
+                      <TableRowColumn>
+                        <RaisedButton label="Dialog" onTouchTap={this.onhandleOpen} />
+                      </TableRowColumn>
+                      <TableRowColumn>
+                        <Dialog
+                          title="Dialog With Date Picker"
+                          modal={false}
+                          open={this.state.open[user.name]}>
+                          {
+                            _.map(user.data[3], w => {
+                              return <p><strong>{w.word}</strong> {w.count}</p>
+                            })
+                          }
+                        </Dialog>
+                      </TableRowColumn>
+                    </TableRow>
           })
         }
         </TableBody>

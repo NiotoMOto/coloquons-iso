@@ -46,19 +46,20 @@ export default class Home extends Component<IProps, IStates> {
       reader.readAsText(file, "UTF-8");
       reader.onload = evt => {
         Hangouts = JSON.parse(evt.target.result);
+        const chartDatas = processData(Hangouts);
         this.setState(
           {
-            chartDatas: processData(Hangouts),
+            chartDatas,
             hasFile: true
           }
         );
       }
       reader.onprogress = data => {
-      if (data.lengthComputable) {
-          var progress = parseInt( ((data.loaded / data.total) * 100), 10 );
-          this.setState({completed: progress});
+        if (data.lengthComputable) {
+            // var progress = parseInt( ((data.loaded / data.total) * 100), 10 );
+            // this.setState({completed: progress});
+        }
       }
-  }
       reader.onerror = function (evt) {
         alert("Error reading file");
       }
