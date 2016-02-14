@@ -117,7 +117,7 @@ export default function processDataLodash(Hangouts) {
 			data.push({
 				name: user,
 				wordCount: _.size(stats[user].diffWord),
-				data: [stats[user].messages, stats[user].characters, stats[user].images, _.take(_.orderBy(_.values(stats[user].diffWord),['count'],['desc']), 50)]
+				data: [stats[user].messages, stats[user].characters, stats[user].images, _.take(_.orderBy(_.values(stats[user].diffWord),['count'],['desc']), 100)]
 			});
 		}
     console.log('loop stats', (Date.now()-start3) / 1000);
