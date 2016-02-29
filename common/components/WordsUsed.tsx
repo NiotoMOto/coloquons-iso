@@ -14,7 +14,6 @@ interface IStats {
   open: any;
 }
 
-
 export default class WordUsed extends Component<IProps, IStats> {
 
   state = {
@@ -32,7 +31,6 @@ export default class WordUsed extends Component<IProps, IStats> {
   }
 
   onhandleClose(user) {
-    console.log(user, 'handleClose');
     const open = this.state.open;
     open[user.name] = false;
     this.setState({open});
@@ -43,18 +41,10 @@ export default class WordUsed extends Component<IProps, IStats> {
       this.setState({
         open: _.zipObject(_.map(nextProps.chartDatas, 'name'), _.map(nextProps.chartDatas, () => { return false; }))
       });
-      console.log(this.state);
-      console.log(_.map(nextProps.chartDatas, 'name'));
-      console.log(_.zipObject(_.map(nextProps.chartDatas, 'name'), _.map(nextProps.chartDatas, () => { return false; })));
     }
   }
 
-  open(){
-
-  }
-
   render(): JSX.Element {
-    console.log(this.state);
     return (
       <Table>
         <TableHeader>
@@ -68,14 +58,14 @@ export default class WordUsed extends Component<IProps, IStats> {
         <TableBody>
         {
           _.map(this.props.chartDatas, user => {
-            this.onhandleOpen = this.onhandleOpen.bind(this, user);
-            this.onhandleClose = this.onhandleOpen.bind(this, user);
+            const onhandleOpen = this.onhandleOpen.bind(this, user);
+            const onhandleClose = this.onhandleClose.bind(this, user);
             return (
               <TableRow key={user.name}>
                 <TableRowColumn>{user.name}</TableRowColumn>
                 <TableRowColumn>{user.wordCount}</TableRowColumn>
                 <TableRowColumn>
-                  <RaisedButton label="Top 100 mots" onTouchTap={this.onhandleOpen} />
+                  <RaisedButton label="Top 100 mots" onTouchTap={onhandleOpen} />
                 </TableRowColumn>
                 <TableRowColumn>
                   <Dialog
@@ -83,13 +73,14 @@ export default class WordUsed extends Component<IProps, IStats> {
                     modal={false}
                     title="Top 100 mots"
                     open={this.state.open[user.name]}
-                    onRequestClose={this.onhandleClose} >
+                    onRequestClose={onhandleClose} >
                       {
                         _.map(user.data[3], w => {
                           return (
                             <Badge
                               badgeContent={w.count}
                               primary={true}
+                              key={w.word}
                             >
                               {w.word}
                             </Badge>
