@@ -20,8 +20,6 @@ main.use(route.get('/logout', function *() {
   this.redirect('/');
 }));
 
-
-
 main.use(route.post('/login', function*(next) {
     var ctx = this
     yield passport.authenticate('local', function*(err, user, info) {

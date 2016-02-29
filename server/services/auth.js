@@ -30,6 +30,67 @@ passport.use(new LocalStrategy(function(username, password, done) {
   });
 }))
 
+const GoogleStrategy = require('passport-google-auth').Strategy
+passport.use(new GoogleStrategy({
+    clientId: '518401525808-7ddtol6bmdeqa1vi07hmt74p2cs95392.apps.googleusercontent.com',
+    clientSecret: 'HCZ2ksQaZiPobfbk32XqYwn1',
+    callbackURL: 'http://localhost:' + (process.env.PORT || 3000) + '/auth/google/callback'
+  },
+  function(token, tokenSecret, profile, done) {
+    process.nextTick(function() {
+      const body = {"google.id": profile.id }
+      fetch(`http://localhost:4001/api/v1/Users?query=${JSON.stringify(body)}`, {
+        method: 'get',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      }).then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+      }).then( users => {
+        console.log(users.length, users[0]);
+        if(users.length) {
+          done(null, users[0]);
+        }else {
+          const newUser = {
+            username: profile.displayName,
+            google: {
+              id: profile.id,
+              token,
+              name: profile.displayName,
+              email: profile.emails[0].value
+            }
+          };
+          fetch('http://localhost:4001/api/v1/Users', {
+            method: 'post',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newUser)
+          }).then(res => {
+            if(res.ok){
+              return res.json();
+            }else {
+              return false;
+            }
+          }).then(res => {
+            done(null, res);
+          });
+        }
+
+      },err => {
+        return false;
+      });
+    })
+  }
+))
+
+
+
+
 // var FacebookStrategy = require('passport-facebook').Strategy
 // passport.use(new FacebookStrategy({
 //     clientID: 'your-client-id',
@@ -54,55 +115,3 @@ passport.use(new LocalStrategy(function(username, password, done) {
 //   }
 // ))
 //
-const GoogleStrategy = require('passport-google-auth').Strategy
-passport.use(new GoogleStrategy({
-    clientId: '518401525808-7ddtol6bmdeqa1vi07hmt74p2cs95392.apps.googleusercontent.com',
-    clientSecret: 'HCZ2ksQaZiPobfbk32XqYwn1',
-    callbackURL: 'http://localhost:' + (process.env.PORT || 3000) + '/auth/google/callback'
-  },
-  function(token, tokenSecret, profile, done) {
-    process.nextTick(function() {
-      const body = {"google.id": profile.id }
-      const promise = fetch(`http://localhost:4001/api/v1/Users?query=${JSON.stringify(body)}`, {
-        method: 'get',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-      }).then(res => {
-        const users = req.body;
-        if(users.lenght){
-          done(null, user[0]);
-        }else{
-          const newUser = {
-            username: profile.displayName,
-            google: {
-              id: prfile.id,
-              token,
-              name: profile.displayName,
-              email: profile.emails[0].value
-            }
-          };
-          fetch('http://localhost:4001/api/v1/User', {
-            method: 'put',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newUser)
-          }).then(user => {
-            done(null, user);
-          });
-        }
-
-      },err => {
-        return false;
-        console.log('err ===> ', err);
-      });
-      promise.then(function(){
-        console.log("toto");
-      })
-      console.log(promise);
-    })
-  }
-))
