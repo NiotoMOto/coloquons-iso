@@ -6,7 +6,22 @@ passport.serializeUser(function(user, done) {
 })
 
 passport.deserializeUser(function(_id, done) {
-  done(null, _id);
+  fetch(`http://localhost:4001/api/v1/Users/${_id}`, {
+    method: 'get',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+  }).then(res => {
+    if(res.ok) {
+      return res.json();
+    }else {
+      done(null, null);
+    }
+  }).then (user => {
+    done(null, user);
+  });
+
 })
 
 const LocalStrategy = require('passport-local').Strategy

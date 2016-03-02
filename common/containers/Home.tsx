@@ -13,7 +13,8 @@ const { Component } = React;
 import * as _ from 'lodash';
 
 interface IProps {
-  cheers: string;l
+  cheers: string;
+  user: any;
 }
 
 interface IStates {
@@ -154,7 +155,7 @@ export default class Home extends Component<IProps, IStates> {
       chartMedias = <ReactHighcharts config={cofigMedias} />
     }
     return (
-      <Layout title={'Coloquons'}>
+      <Layout title={'Coloquons'} user={this.props.user}>
         <Card>
           <CardHeader
             title="Hangout Stats"

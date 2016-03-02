@@ -13,6 +13,7 @@ const { Component } = React;
 interface IProps {
   children?: React.ReactNode;
   title: string;
+  user: any;
 }
 
 interface IState {
@@ -65,7 +66,7 @@ export default class Layout extends Component<IProps, IState> {
     const styles = this.getStyle();
     return (
       <div>
-        <AppBarrMenu showMenuIconButton={this.state.showMenuIcon} onLeftIconButtonTouchTap={this.onLeftIconButtonTouchTap} title={this.props.title} />
+        <AppBarrMenu showMenuIconButton={this.state.showMenuIcon} onLeftIconButtonTouchTap={this.onLeftIconButtonTouchTap} title={this.props.title} user={this.props.user}/>
         <MenuLeftNav styles={styles.leftNav} docked={this.state.docked} open={this.state.leftNavOpen}/>
         <Paper style={styles.root}>
           {this.props.children}

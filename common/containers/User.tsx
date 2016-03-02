@@ -12,6 +12,7 @@ const { Component } = React;
 
 interface IProps {
   cheers: string;
+  user: any;
 }
 
 interface IState {
@@ -54,7 +55,7 @@ export default class Home extends Component<IProps, IState> {
   render(): JSX.Element {
     const styles = this.getStyle();
     return (
-      <Layout title={'Coloquons'}>
+      <Layout title={'Coloquons'} user={this.props.user}>
         <Card>
           <CardHeader
             title="URL Avatar"
