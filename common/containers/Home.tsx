@@ -7,6 +7,7 @@ import {Paper, RaisedButton, CircularProgress, FontIcon,Card, CardHeader, CardTe
 import { autobind, filters } from '../services/util';
 import processData from '../services/hangoutParser';
 import Layout from '../components/Layout';
+import SelectUser from '../components/SelectUser';
 import WordsUsed from '../components/WordsUsed';
 import * as ReactHighcharts from 'react-highcharts';
 const { Component } = React;
@@ -156,6 +157,7 @@ export default class Home extends Component<IProps, IStates> {
     }
     return (
       <Layout title={'Coloquons'} user={this.props.user}>
+        <SelectUser/>
         <Card>
           <CardHeader
             title="Hangout Stats"

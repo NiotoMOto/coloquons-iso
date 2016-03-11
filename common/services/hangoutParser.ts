@@ -5,6 +5,7 @@ export default function processDataLodash(Hangouts) {
 	let all_participants = {};
 	let key = '';
 	let person_key = '';
+	const Channels = [];
 	let event_key = '';
 	// const commonWords =['je', 'tu', 'il', 'nous', 'vous', 'ils', 'on', 'elle','j', 'mais', 'ou', 'est', 'donc', 'or', 'ni', 'car', 'de', 'dans', 'ta', 'le', 'la', 'a', 'pas', 'd', 'c', 'un', 'une', 'et', 'mon', 'ma','que', 'les', 'en','ca'];
 	const commonWords = [''];
@@ -29,7 +30,6 @@ export default function processDataLodash(Hangouts) {
           };
       })
 		}
-    console.log((Date.now()-start2) / 1000);
     _.map(Hangouts['conversation_state'], conversation_state => {
 			var id = conversation_state['conversation_id']['id'];
 			var conversation = conversation_state['conversation_state']['conversation'];
@@ -53,8 +53,8 @@ export default function processDataLodash(Hangouts) {
 			var events = [];
       _.map(conversation_state['conversation_state']['event'], convo_event => {
 				var sender = convo_event['sender_id']['gaia_id'];
-				// var message = "";
-				// var timestamp = convo_event['timestamp'];
+				var message = "";
+				var timestamp = convo_event['timestamp'];
 				if(convo_event['chat_message']){
 					// Get message
 					_.map(convo_event['chat_message']['message_content']['segment'], segment => {
@@ -78,37 +78,55 @@ export default function processDataLodash(Hangouts) {
 							stats[participants_obj[sender]].characters += segment['text'].length;
 							stats[participants_obj[sender]].words +=words.length;
 						}
-						// message += segment['text'];
+						message += segment['text'];
 					})
 					// Check for images on event
 					if(convo_event['chat_message']['message_content']['attachment']){
 						for(var attach_key in convo_event['chat_message']['message_content']['attachment']){
-							// var attachment = convo_event['chat_message']['message_content']['attachment'][attach_key];
+							var attachment = convo_event['chat_message']['message_content']['attachment'][attach_key];
 							if(stats[participants_obj[sender]]) {
 								stats[participants_obj[sender]].images = stats[participants_obj[sender]].images + 1;
 							}
-							// if(attachment['embed_item']['type'][0] == "PLUS_PHOTO"){
-							// 	message += "\n<a target='blank' href='" + attachment['embed_item']['embeds.PlusPhoto.plus_photo']['url'] + "'><img class='thumb' src='" + attachment['embed_item']['embeds.PlusPhoto.plus_photo']['thumbnail']['image_url'] + "' /></a>";
-							// }
+							if(attachment['embed_item']['type'][0] == "PLUS_PHOTO"){
+								message += "\n<a target='blank' href='" + attachment['embed_item']['embeds.PlusPhoto.plus_photo']['url'] + "'><img class='thumb' src='" + attachment['embed_item']['embeds.PlusPhoto.plus_photo']['thumbnail']['image_url'] + "' /></a>";
+							}
 						}
 					}
 					if(stats[participants_obj[sender]]) {
 						stats[participants_obj[sender]].messages = stats[participants_obj[sender]].messages + 1;
 					}
-					// events.push({sender: participants_obj[sender], message: message, timestamp: timestamp});
+					events.push({sender: participants_obj[sender], message: message, timestamp: timestamp});
 				}
 			})
 
 			// Sort events by timestamp
-			// events.sort(function(a, b){
-			// 	var keyA = a.timestamp,
-			// 	    keyB = b.timestamp;
-			// 	if(keyA < keyB) return -1;
-			// 	if(keyA > keyB) return 1;
-			// 	return 0;
-			// });
+			events.sort(function(a, b){
+				var keyA = a.timestamp,
+				    keyB = b.timestamp;
+				if(keyA < keyB) return -1;
+				if(keyA > keyB) return 1;
+				return 0;
+			});
 			// Add events
-			Conversations[id] = events;
+			Channels.push(conversation);
+			Conversations[conversation.id.id] = events;
+		});
+		console.log(Conversations);
+		Channels.forEach(channel => {
+			let body = {
+				id: channel.id.id,
+				name: channel.name ? channel.name : all_participants[channel['current_participant'][0]['gaia_id']],
+			};
+			fetch('http://localhost:4001/api/v1/Channels', {
+		    method: 'post',
+		    headers: {
+		      'Accept': 'application/json',
+		      'Content-Type': 'application/json'
+		    },
+		    body: JSON.stringify(body)
+		  }).then(res => {
+				console.log(res);
+			});
 		});
 		const data = [];
 		let user = '';
@@ -120,8 +138,6 @@ export default function processDataLodash(Hangouts) {
 				data: [stats[user].messages, stats[user].characters, stats[user].images, _.take(_.orderBy(_.values(stats[user].diffWord),['count'],['desc']), 100)]
 			});
 		}
-    console.log('loop stats', (Date.now()-start3) / 1000);
 		const end = Date.now();
-		console.log((end-start)/1000, 'secondes');
     return data;
 	}
