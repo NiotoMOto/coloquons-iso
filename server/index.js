@@ -64,7 +64,7 @@ app.on('error', function(err){
   log.error('server error', err);
 });
 
-// if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.use(function*(next) {
     if (this.isAuthenticated()) {
       yield next;
@@ -72,7 +72,7 @@ app.on('error', function(err){
       this.redirect('/login');
     }
   });
-// }
+}
 
 app.use(mount('/', routes));
 

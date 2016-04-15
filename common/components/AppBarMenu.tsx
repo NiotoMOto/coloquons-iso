@@ -16,6 +16,9 @@ export default class AppBarrMenu extends Component<IProps, void> {
 
   constructor(props){
     super(props);
+    if(!this.user) {
+      this.user = {username: 'foo bar'};
+    }
   }
 
   render(): JSX.Element {
@@ -30,7 +33,7 @@ export default class AppBarrMenu extends Component<IProps, void> {
             <IconMenu
               iconButtonElement= {
                 <FlatButton
-                  label={this.props.user.username}
+                  //label={this.props.user.username}
                   linkButton={true}
                   icon={<FontIcon className="icon-person"/>}
                 />

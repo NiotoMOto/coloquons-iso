@@ -41,6 +41,7 @@
     "react-file-input": "^0.2.5",
     "react-highcharts": "^7.0.0",
     "react-tap-event-plugin": "*",
+    "request-promise": "^2.0.1",
     "require-dir": "^0.3.0",
     "superagent": "^1.7.2",
     "whatwg-fetch": "^0.11.0"
